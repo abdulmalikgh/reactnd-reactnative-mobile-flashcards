@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import  DeckListView  from './components/DeckListView'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Welcome To Mobile flashcards </Text>
+      <DeckListView />
     </View>
   );
 }
