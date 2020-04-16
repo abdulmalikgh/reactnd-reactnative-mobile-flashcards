@@ -1,4 +1,8 @@
-export const decks = {
+import { AsyncStorage } from 'react-native'
+
+const CARD_DATA_KEY = 'UDACITYCARD'
+
+export const DECKS_DATA = {
     React: {
       title: 'React',
       questions: [
@@ -20,5 +24,21 @@ export const decks = {
           answer: 'The combination of a function and the lexical environment within which that function was declared.'
         }
       ]
+    }
+  }
+
+  const _SetData = async()=>{
+    try {
+      await AsyncStorage.setItem(CARD_DATA_KEY,JSON.stringify(DECKS_DATA))
+    } catch(error){
+      console.warn(error)
+    }
+  }
+
+  const getDecks = async()=>{
+    try {
+      await AsyncStorage.getItem(CARD_DATA_KEY)
+    }catch(error){
+      console.warn(error)
     }
   }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, Text,FlatList,TouchableOpacity} from 'react-native'
-import { decks} from '../utils/api'
 
 function DeckList({title,questions}){
     return (
