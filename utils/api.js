@@ -43,4 +43,4 @@ export const CARD_DATA_KEY = 'UDACITYCARD'
     }
   }
 
-  
+  _SetData()

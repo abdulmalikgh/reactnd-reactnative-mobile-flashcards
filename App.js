@@ -4,12 +4,23 @@ import  DeckListView  from './components/DeckListView'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import Reducer from './reducers'
+import { createStackNavigator } from 'react-navigation-stack'
+import { createBottomTabNavigator} from 'react-navigation-tabs'
+import { createAppContainer } from 'react-navigation'
+
+const NavigationStack = createStackNavigator({
+   Home : {
+     screen : DeckListView
+   }
+})
+
+const AppNavigation = createAppContainer(NavigationStack)
 
 export default function App() {
   return (
     <Provider store={createStore(Reducer)}>
         <View style={{flex: 1}}>
-          <DeckListView />
+          <AppNavigation />
         </View>
     </Provider>
   );
