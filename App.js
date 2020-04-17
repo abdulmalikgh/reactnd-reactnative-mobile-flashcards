@@ -7,11 +7,23 @@ import Reducer from './reducers'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator} from 'react-navigation-tabs'
 import { createAppContainer } from 'react-navigation'
+import DeckView from './components/DeckView'
 
 const NavigationStack = createStackNavigator({
    Home : {
      screen : DeckListView
+   },
+   DeckDetail : {
+     screen: DeckView,
+     navigationOptions : {
+       headerTintColor: 'white',
+       headerStyle:{
+         backgroundColor:'black'
+       }
+     }
    }
+}, {
+  initialRouteName: 'Home'
 })
 
 const AppNavigation = createAppContainer(NavigationStack)
@@ -19,10 +31,16 @@ const AppNavigation = createAppContainer(NavigationStack)
 export default function App() {
   return (
     <Provider store={createStore(Reducer)}>
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           <AppNavigation />
         </View>
     </Provider>
   );
 }
-
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      alignContent:'center',
+      justifyContent: 'center'
+  }
+})

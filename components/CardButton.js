@@ -1,12 +1,14 @@
 import React from 'react'
 import {TouchableOpacity, Text,StyleSheet } from 'react-native'
 
-export default function CardButton({onPress,children,style = {}}){
-    <TouchableOpacity onPress={onPress} style={[styles.button,style]}>
-        <Text>
-            {children}
+export default function CardButton({onPress,children, btnStyle={}, textStyle={}}){
+return (
+    <TouchableOpacity onPress={onPress} style={[styles.button,btnStyle]}>
+        <Text style={[styles.btnText, textStyle]}>
+           {children}
         </Text>
-    </TouchableOpacity>
+   </TouchableOpacity>
+)
 }
 
 const styles = StyleSheet.create({
@@ -14,12 +16,13 @@ const styles = StyleSheet.create({
         width:'50%',
         heigth:'50%',
         borderColor:'black',
-        borderRadius:20,
+        borderRadius:10,
         borderWidth:4,
         marginBottom:10
     },
     btnText : {
         fontSize:28,
         padding:10,
+        textAlign:'center'
     }
 })

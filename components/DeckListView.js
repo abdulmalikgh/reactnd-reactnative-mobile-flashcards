@@ -4,11 +4,11 @@ import { addDecks } from '../actions'
 import { getDecks} from '../utils/api'
 import { connect } from 'react-redux'
 
-function DeckList({title,questions,listviewContent}){
+function DeckList({title,questions,onPress,}){
     
     return (
-        <TouchableOpacity>
-           <View style={listviewContent}>
+        <TouchableOpacity onPress={onPress}>
+           <View style={styles.listviewContent}>
                 <Text style={styles.title}> {title} </Text>
                 <Text style={styles.total}> {questions.length} Cards</Text>
            </View>
@@ -31,7 +31,9 @@ componentDidMount(){
                <FlatList 
                    data={Object.keys(decks)}
                    keyExtractor={(item,index) => item[index] }
-                   renderItem={ ({ item })=><DeckList {...decks[item]} listviewContent={styles.listviewContent}/>}
+                   renderItem={ ({ item })=><DeckList {...decks[item]} onPress={()=>this.props.navigation.navigate(
+                       'DeckDetail',
+                       {title : decks[item].title})}/>}
                />
            </View>
         )
