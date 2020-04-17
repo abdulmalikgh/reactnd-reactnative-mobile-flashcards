@@ -1,20 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import  DeckListView  from './components/DeckListView'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import Reducer from './reducers'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <DeckListView />
-    </View>
+    <Provider store={createStore(Reducer)}>
+        <View style={{flex: 1}}>
+          <DeckListView />
+        </View>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
