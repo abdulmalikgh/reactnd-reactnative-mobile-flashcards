@@ -3,8 +3,18 @@ import { View, Text,FlatList,TouchableOpacity,StyleSheet} from 'react-native'
 import { addDecks } from '../actions'
 import { getDecks} from '../utils/api'
 import { connect } from 'react-redux'
-import DeckList from './DeckList'
 
+function DeckList({title,questions,listviewContent}){
+    
+    return (
+        <TouchableOpacity>
+           <View style={listviewContent}>
+                <Text style={styles.title}> {title} </Text>
+                <Text style={styles.total}> {questions.length} Cards</Text>
+           </View>
+        </TouchableOpacity>
+    )
+}
 class DeckListView extends Component{
 componentDidMount(){
     return getDecks().then((decks)=> {
@@ -36,7 +46,16 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-
+    title : {
+        padding:10,
+        fontSize:30,
+        color:'black'
+    },
+    total : {
+        color:'black',
+        opacity: 0.5,
+        fontSize: 18
+    }
 })
 function mapStateToProps(decks) {
     return {
