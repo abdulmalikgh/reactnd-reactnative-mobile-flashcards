@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import  DeckListView  from './components/DeckListView'
 import { Provider } from 'react-redux'
@@ -28,7 +28,8 @@ const NavigationStack = createStackNavigator({
 
 const AppNavigation = createAppContainer(NavigationStack)
 
-export default function App() {
+export default class extends Component {
+render( ) {
   return (
     <Provider store={createStore(Reducer)}>
         <View style={styles.container}>
@@ -36,6 +37,7 @@ export default function App() {
         </View>
     </Provider>
   );
+}
 }
 const styles = StyleSheet.create({
   container: {
