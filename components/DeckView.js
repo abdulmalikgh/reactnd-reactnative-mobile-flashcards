@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import CardButton from './CardButton'
 
-const startQuiz  = ()=>{
+const deleteDeck  = ()=>{
    console.log('start quiz')
    // todo : redirect user to add card
 }
@@ -33,11 +33,19 @@ class DeckView extends Component {
                     </View>
                 </View>
                 <View style={styles.cardBtns}>
-                     <CardButton onPress={addCard}>
+                     <CardButton onPress={addCard} btnStyle={{borderWidth:4}}>
                          Add Card
                      </CardButton>
-                     <CardButton onPress={startQuiz} btnStyle={styles.btnStyle} textStyle={styles.textStyle}>
+                     <CardButton onPress={()=> this.props.navigation.navigate(
+                         'Quiz', 
+                         {pageTitle:'Quiz',quizTitle:title}
+                         )} 
+                         btnStyle={styles.btnStyle} 
+                         textStyle={styles.textStyle}>
                          Start Quiz
+                     </CardButton>
+                     <CardButton textStyle={{color:'red'}} onPress={deleteDeck}>
+                         Delete Deck
                      </CardButton>
                 </View>
             </View>
