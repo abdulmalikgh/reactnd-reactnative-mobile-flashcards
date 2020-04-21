@@ -29,16 +29,44 @@ const CARD_DATA = {
 
  _storeData = async () => {
      try {
-         await AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(CARD_DATA))
+         return await AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(CARD_DATA))
      } catch (error) {
          console.warn('Error saving data to the database', error)
      }
  }
 
- export const getDeck = async()=> {
+ export const getDecks = async()=> {
     try{
-      await  AsyncStorage.getItem(CARD_STORAGE_KEY)
+      return await  AsyncStorage.getItem(CARD_STORAGE_KEY)
     }catch(error) {
         console.warn(error)
     }
  }
+
+ export const addDeck = async(deck)=>{
+  try {
+    AsyncStorage.getItem(CARD_STORAGE_KEY)
+    .then( (decks)=> {
+      const data = JSON.parse(decks)
+      const newDecks = {...data,deck}
+      return await AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(newDecks))
+    })
+  }catch( err ) {
+    console.warn(err)
+  }
+ }
+
+ export const removeDeck = async(deckTitle)=> {
+   try{
+       AsyncStorage.getItem(CARD_STORAGE_KEY)
+        .then(decks => {
+          const data = JSON.parse(decks)
+          data[deckTitle] = undefined
+          delete data[deckTitle]
+          return await AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(data))
+        })
+   }catch(err) {
+     console.warn(err)
+   }
+ }
+ _storeData()
