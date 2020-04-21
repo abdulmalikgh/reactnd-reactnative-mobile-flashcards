@@ -1,8 +1,8 @@
 import { AsyncStorage } from 'react-native'
 
-export const CARD_DATA_KEY = 'UDACITYCARD'
+export const CARD_STORAGE_KEY = 'UDACICARDS'
 
- const decks = {
+const CARD_DATA = {
     React: {
       title: 'React',
       questions: [
@@ -27,20 +27,18 @@ export const CARD_DATA_KEY = 'UDACITYCARD'
     }
   }
 
-  const _SetData = async()=>{
-    try {
-     return await AsyncStorage.setItem(CARD_DATA_KEY,JSON.stringify(decks))
-    } catch(error){
-      console.warn(error)
-    }
-  }
+ _storeData = async () => {
+     try {
+         await AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(CARD_DATA))
+     } catch (error) {
+         console.warn('Error saving data to the database', error)
+     }
+ }
 
- export const getDecks = async()=>{
-    try {
-      return await AsyncStorage.getItem(CARD_DATA_KEY)
-    }catch(error){
-      console.warn(error)
+ export const getDeck = async()=> {
+    try{
+      await  AsyncStorage.getItem(CARD_STORAGE_KEY)
+    }catch(error) {
+        console.warn(error)
     }
-  }
-
-  _SetData()
+ }
