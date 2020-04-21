@@ -8,7 +8,7 @@ export function addDecks(decks){
     }
 }
 
-export function addCard(card,question,answer){
+export function addCard({ card,question,answer }){
     return {
         type: ADD_CARD,
         card,

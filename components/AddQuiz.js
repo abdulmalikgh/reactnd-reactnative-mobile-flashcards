@@ -1,13 +1,14 @@
 import React, { Component}from 'react'
-import { View, Text,StyleSheet,TextInput } from 'react-native'
+import { View, Text,StyleSheet,TextInput,Alert } from 'react-native'
 import CardButton from './CardButton'
 import { connect } from 'react-redux'
+import { addCard} from '../actions'
 
 class AddQuiz extends Component{
     state = {
         isFocused: false,
-        question:'',
-        answer:''
+        question:'Question',
+        answer:'Answer'
     }
     handleFocus = event => {
         this.setState({ isFocused: true})
@@ -25,14 +26,28 @@ class AddQuiz extends Component{
 
     }
     submitCard = ()=>{
-      // todo add card redux
+      const question = this.state.question
+      const answer = this.state.answer
+      const card = this.props.navigation.state.params.quizTitle
+      if(question === 'Question' && answer === 'Answer'){
+          Alert.alert(`You didn't enter question and answer,Try again`)
+          console.log('No answer entered')
+      }else {
+        this.props.dispatch(addCard({ question,answer,card }))
+      }
+      
       // add card to asyncStorage
+
+      this.setState({
+          question: 'Question',
+          answer: 'Answer'
+      })
     }
     static navigationOptions = ({ navigation })=>{
         const {pageTitle,quizTitle } = navigation.state.params
 
         return {
-            title:`${quizTitle}${pageTitle}`
+            title:`${quizTitle}   ${pageTitle}`
         }
     }
     render(){
@@ -45,7 +60,7 @@ class AddQuiz extends Component{
                         onFocus={this.handleFocus}
                         onBlur={this.handleOnBlur}
                         onChangeText={(text) => this.setState({question: text})}
-                        placeholder="Enter card question"
+                        value={this.state.question}
                     />
                     <TextInput
                         style={[styles.textInput,
@@ -53,7 +68,7 @@ class AddQuiz extends Component{
                         onFocus={this.handleFocus}
                         onBlur={this.handleOnBlur}
                         onChangeText={(text)=> this.setState({answer:text})}
-                        placeholder="Enter card Answer"/>
+                        value={this.state.answer}/>
                 </View>
                 <View style={styles.submitBtn}>
                     <CardButton 
@@ -81,16 +96,6 @@ const styles = StyleSheet.create({
         flex:4,
         alignItems:'center'
     },
-    textInput: {
-        width:'80%',
-        height:60,
-        borderWidth:2,
-        borderColor:'black',
-        fontSize:28,
-        borderRadius:6,
-        margin:10,
-        padding:3,
-    }
 
 })
 

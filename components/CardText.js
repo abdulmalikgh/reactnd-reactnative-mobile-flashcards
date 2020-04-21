@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextInput,StyleSheet } from 'react-native'
 
-export default function CardText({value, onChangeText,onFocus,isFocused,onBlur}) {
+export default function CardText({ value, onChangeText,onFocus,isFocused,onBlur }) {
     return (
         <TextInput
             style={[styles.textInput,

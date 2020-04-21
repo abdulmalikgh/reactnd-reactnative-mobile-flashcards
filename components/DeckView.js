@@ -33,7 +33,11 @@ class DeckView extends Component {
                     </View>
                 </View>
                 <View style={styles.cardBtns}>
-                     <CardButton onPress={addCard} btnStyle={{borderWidth:4}}>
+                     <CardButton onPress={()=>this.props.navigation.navigate(
+                             'AddQuiz',
+                              {quizTitle:title,pageTitle: 'Add Card'}
+                              )} 
+                              btnStyle={{borderWidth:4}}>
                          Add Card
                      </CardButton>
                      <CardButton onPress={()=> this.props.navigation.navigate(
@@ -44,7 +48,7 @@ class DeckView extends Component {
                          textStyle={styles.textStyle}>
                          Start Quiz
                      </CardButton>
-                     <CardButton textStyle={{color:'red'}} onPress={deleteDeck}>
+                     <CardButton textStyle={{color:'red'}}>
                          Delete Deck
                      </CardButton>
                 </View>

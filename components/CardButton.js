@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
         height: 80,
         borderColor:'black',
         borderRadius:10,
-        borderWidth:4,
         marginBottom:10
     },
     btnText : {

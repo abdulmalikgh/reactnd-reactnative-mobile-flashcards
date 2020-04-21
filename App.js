@@ -8,25 +8,49 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator} from 'react-navigation-tabs'
 import { createAppContainer } from 'react-navigation'
 import DeckView from './components/DeckView'
+import Quiz from './components/Quiz'
+import AddQuiz from './components/AddQuiz'
+import AddDeck from './components/AddDeck'
 
 const NavigationStack = createStackNavigator({
    Home : {
-     screen : DeckListView
+     screen : DeckListView,
    },
    DeckDetail : {
      screen: DeckView,
-     navigationOptions : {
-       headerTintColor: 'white',
-       headerStyle:{
-         backgroundColor:'black'
-       }
-     }
+   },
+   Quiz: {
+     screen: Quiz
+   },
+   AddQuiz : {
+     screen: AddQuiz
    }
 }, {
   initialRouteName: 'Home'
+},
+{defaultNavigationOptions : {
+    headerTintColor: 'white',
+    headerStyle:{
+    backgroundColor:'black'
+  }
+}})
+
+const TabNavigation = createBottomTabNavigator({
+  Decks : {
+    screen : NavigationStack,
+    navigationOptions: {
+      title: 'Decks'
+    }
+  },
+  AddDeck : {
+    screen: AddDeck,
+    navigationOptions: {
+      title: 'Add Deck'
+    }
+  }
 })
 
-const AppNavigation = createAppContainer(NavigationStack)
+const AppNavigation = createAppContainer(TabNavigation)
 
 export default class extends Component {
 render( ) {

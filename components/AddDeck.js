@@ -1,11 +1,31 @@
 import React , {Component} from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import CardButton from './CardButton'
 import { connect } from 'react-redux'
+import CardText from './CardButton'
 
 class AddDeck extends Component{
     state = {
-        deck : 'Deck Titile'
+        deck : 'Deck Titile',
+        isFocused: false
+    }
+   createDeck = ()=>{
+        console.log('Add deck to store')
+    }
+    handleFocus = event => {
+        this.setState({ isFocused: true})
+        
+        if(this.props.onFocus){
+            this.props.onFocus(event)
+        }
+    }
+    handleOnBlur = event => {
+        this.setState({isFocused: false})
+        
+        if(this.props.onBlur){
+            this.props.onBlur(event)
+        }
+
     }
     render() {
         return (
@@ -14,7 +34,12 @@ class AddDeck extends Component{
                     <Text style={styles.deckText}>
                         What is the name of the title of your new deck ?
                     </Text>
-                    <TextInput />
+                    <CardText
+                       isFocused={this.state.isFocused}
+                       value={this.state.deck}
+                       onChangeText={(text) => his.state.setState({deck:text})}
+                       onFocus={this.handleFocus}
+                       onBlur={this.handleOnBlur}/>
                 </View>
                 <View style={styles.buttonContent}>
                     <CardButton 
@@ -31,14 +56,16 @@ class AddDeck extends Component{
 const styles = StyleSheet.create({
     textContent: {
         flex:5,
-        alignItems:'center'
+        alignItems: 'center',
+        marginTop:70    
     },
     buttonContent: {
-        flex:4,
+        flex:2,
         alignItems:'center'
     },
     deckText: {
-        fontSize:30
+        fontSize:30,
+        textAlign:'center'
     }
 })
 
