@@ -5,7 +5,6 @@ import { getDecks} from '../utils/api'
 import { connect } from 'react-redux'
 
 function DeckList({title,questions,onPress,}){
-    
     return (
         <TouchableOpacity onPress={onPress}>
            <View style={styles.listviewContent}>
@@ -15,17 +14,16 @@ function DeckList({title,questions,onPress,}){
         </TouchableOpacity>
     )
 }
-class DeckListView extends Component{
-componentDidMount(){
-    return getDecks().then((decks)=> {
-        this.props.dispatch(addDecks(JSON.parse(decks)))
-        
-    })
-}
 
+class DeckListView extends Component{
+    componentDidMount(){
+        return getDecks().then((decks)=> {
+            this.props.dispatch(addDecks(JSON.parse(decks)))
+            
+        })
+    }
     render() {
         const { decks } = this.props
-        console.log(Object.keys(decks))
         return (
            <View style={styles.listContainer}>
                <FlatList 
