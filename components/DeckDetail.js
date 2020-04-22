@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import CardButton from './CardButton'
 
@@ -14,7 +14,7 @@ const addCard = ()=>{
     // todo : redirect user to start quiz
 }
 
-class DeckView extends Component {
+class DeckDetail extends Component {
     static navigationOptions = ({ navigation })=>{
        const { title } = navigation.state.params
        return {
@@ -34,7 +34,7 @@ class DeckView extends Component {
                 </View>
                 <View style={styles.cardBtns}>
                      <CardButton onPress={()=>this.props.navigation.navigate(
-                             'AddQuiz',
+                             'AddCard',
                               {quizTitle:title,pageTitle: 'Add Card'}
                               )} 
                               btnStyle={{borderWidth:4}}>
@@ -97,5 +97,5 @@ function mapStateToProps(decks) {
         decks
     }
 }
-export default connect(mapStateToProps)(DeckView)
+export default connect(mapStateToProps)(DeckDetail)
 

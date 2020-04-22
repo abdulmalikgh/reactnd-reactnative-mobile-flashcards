@@ -7,50 +7,57 @@ import Reducer from './reducers'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator} from 'react-navigation-tabs'
 import { createAppContainer } from 'react-navigation'
-import DeckView from './components/DeckView'
+import DeckDetail from './components/DeckDetail'
 import Quiz from './components/Quiz'
-import AddQuiz from './components/AddQuiz'
+import AddCard from './components/AddCard'
 import AddDeck from './components/AddDeck'
-
-const NavigationStack = createStackNavigator({
-   Home : {
-     screen : DeckListView,
-   },
-   DeckDetail : {
-     screen: DeckView,
-   },
-   Quiz: {
-     screen: Quiz
-   },
-   AddQuiz : {
-     screen: AddQuiz
-   }
-}, {
-  initialRouteName: 'Home'
-},
-{defaultNavigationOptions : {
-    headerTintColor: 'white',
-    headerStyle:{
-    backgroundColor:'black'
-  }
-}})
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
 const TabNavigation = createBottomTabNavigator({
   Decks : {
-    screen : NavigationStack,
-    navigationOptions: {
-      title: 'Decks'
+    screen : DeckListView,
+     navigationOptions: {
+      tabBarLabel:'Decks',
+      tabBarIcon: ({ tintColor })=> <Ionicons name='ios-bookmarks' color={tintColor} size={30} />
     }
   },
   AddDeck : {
     screen: AddDeck,
     navigationOptions: {
-      title: 'Add Deck'
+      tabBarLabel:'Add Deck',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' color={tintColor} size={30} /> 
     }
-  }
+}
 })
 
-const AppNavigation = createAppContainer(TabNavigation)
+const StackNavigation = createStackNavigator({
+  Home : {
+    screen : TabNavigation,
+    navigationOptions: {
+      header: null
+    }
+  },
+  DeckDetail : {
+    screen: DeckDetail,
+  },
+  Quiz: {
+    screen: Quiz
+  },
+  AddCard : {
+    screen: AddCard
+  }
+}, {
+ initialRouteName: 'Home'
+},
+
+{defaultNavigationOptions : {
+   headerTintColor: 'white',
+   headerStyle:{
+   backgroundColor:'black',
+ }
+}})
+
+const AppNavigation = createAppContainer(StackNavigation)
 
 export default class extends Component {
 render( ) {
@@ -59,6 +66,14 @@ render( ) {
         <View style={styles.container}>
           <AppNavigation />
         </View>
-    </Provider>
+    </Provider> 
   );
 }
+}
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      alignContent:'center',
+      justifyContent: 'center'
+  }
+})
