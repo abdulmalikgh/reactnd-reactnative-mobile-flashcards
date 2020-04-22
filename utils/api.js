@@ -43,14 +43,14 @@ const CARD_DATA = {
     }
  }
 
- export const addDeck = async(deck)=>{
+ export const addDeckToDecks = async(deck)=>{
   try {
-    await AsyncStorage.getItem(CARD_STORAGE_KEY)
-    .then( (decks)=> {
-      const data = JSON.parse(decks)
-      const newDecks = {...data,deck}
-      return AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(newDecks))
-    })
+    await AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({
+      [deck] : {
+        title: deck,
+        questions: []
+      }
+    }))
   }catch( err ) {
     console.warn(err)
   }
@@ -74,12 +74,9 @@ export const addCardToDeck = ({card, question, answer})=>{
   try{
       AsyncStorage.getItem(CARD_STORAGE_KEY)
       .then( decks => {
-      const decksInStore = JSON.parse(decks)
-      console.log('decks from stote', decksInStore)
-      return AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({
-       
+        const decksInStore = JSON.parse(decks)
+        return AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({
           questions: decksInStore[card].questions.concat({question:question,answer:answer})
-        
       }))
     })
   }catch(err){
