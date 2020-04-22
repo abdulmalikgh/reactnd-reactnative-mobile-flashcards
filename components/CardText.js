@@ -2,7 +2,6 @@ import React from 'react'
 import { TextInput, StyleSheet } from 'react-native'
 
 export default function CardText({ value,onBlur,onFocus,onChangeText,isfocused }) {
-    console.log('isfocused', isfocused)
     return (
             <TextInput 
                 style={[styles.textInput,
