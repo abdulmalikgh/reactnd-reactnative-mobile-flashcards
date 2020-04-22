@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text,FlatList,TouchableOpacity,StyleSheet} from 'react-native'
 import { addDecks } from '../actions'
-import { getDecks} from '../utils/api'
+import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 
 function DeckList({title,questions,onPress,}){
@@ -16,10 +16,10 @@ function DeckList({title,questions,onPress,}){
 }
 
 class DeckListView extends Component{
+
     componentDidMount(){
         return getDecks().then((decks)=> {
             this.props.dispatch(addDecks(JSON.parse(decks)))
-            
         })
     }
     render() {

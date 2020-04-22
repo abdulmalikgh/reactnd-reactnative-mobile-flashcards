@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     },
     deckText: {
         fontSize:30,
-        textAlign:'center'
+        textAlign:'center',
+        margin: 50
     }
 })
 

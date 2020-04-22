@@ -4,22 +4,23 @@ import CardButton from './CardButton'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import { addCardToDeck } from '../utils/api'
+import CardText from './CardText'
 
 class AddCard extends Component{
     state = {
-        isFocused: false,
-        question:'Question',
-        answer:'Answer'
+        isfocused: 'false',
+        question: 'Question',
+        answer: 'Answer'
     }
     handleFocus = event => {
-        this.setState({ isFocused: true})
+        this.setState({ isfocused: 'true'})
         
         if(this.props.onFocus){
             this.props.onFocus(event)
         }
     }
     handleOnBlur = event => {
-        this.setState({isFocused: false})
+        this.setState({isfocused: 'false'})
         
         if(this.props.onBlur){
             this.props.onBlur(event)
@@ -37,12 +38,10 @@ class AddCard extends Component{
         addCardToDeck({card,question,answer})
         this.props.dispatch(addCard({ question,answer,card }))
       }
-      
-      // add card to asyncStorage
 
       this.setState({
           question: 'Question',
-          answer: 'Answer'
+          answer:'Answer'
       })
     }
     static navigationOptions = ({ navigation })=>{
@@ -52,25 +51,23 @@ class AddCard extends Component{
             title:`${quizTitle}   ${pageTitle}`
         }
     }
+
     render(){
         return (
             <View style={styles.addCardContainer}>
                 <View style={styles.cardQuestion}>
-                  <TextInput 
-                    style={[styles.textInput,
-                        {backgroundColor : this.state.isFocused ? 'white' : 'rgba(0,0,0)'}]}
-                        onFocus={this.handleFocus}
-                        onBlur={this.handleOnBlur}
-                        onChangeText={(text) => this.setState({question: text})}
+                    <CardText 
                         value={this.state.question}
-                    />
-                    <TextInput
-                        style={[styles.textInput,
-                        {backgroundColor : this.state.isFocused ? 'white' : 'rgba(0,0,0)'}]}
-                        onFocus={this.handleFocus}
                         onBlur={this.handleOnBlur}
-                        onChangeText={(text)=> this.setState({answer:text})}
-                        value={this.state.answer}/>
+                        onFocus={this.handleFocus}
+                        isfocused={this.state.isfocused}
+                        onChangeText={(text)=> this.setState({question:text})}/>
+                     <CardText 
+                        value={this.state.answer}
+                        onBlur={this.handleOnBlur}
+                        onFocus={this.handleFocus}
+                        isfocused={this.state.isfocused}
+                        onChangeText={(text)=> this.setState({answer:text})}/>
                 </View>
                 <View style={styles.submitBtn}>
                     <CardButton 
@@ -97,16 +94,6 @@ const styles = StyleSheet.create({
     submitBtn:{
         flex:4,
         alignItems:'center'
-    },
-    textInput: {
-        width:'80%',
-        height:50,
-        borderWidth:2,
-        borderColor:'black',
-        fontSize:28,
-        borderRadius:6,
-        margin:10,
-        padding:3,
     }
 })
 

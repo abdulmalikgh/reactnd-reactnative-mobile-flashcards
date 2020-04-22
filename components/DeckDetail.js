@@ -3,18 +3,18 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import CardButton from './CardButton'
-
-const deleteDeck  = ()=>{
-   console.log('start quiz')
-   // todo : redirect user to add card
-}
-
-const addCard = ()=>{
-    console.log('Add card')
-    // todo : redirect user to start quiz
-}
+import { removeDeckFromDecks } from '../utils/api'
+import { removeDeck } from '../actions'
 
 class DeckDetail extends Component {
+    deleteDeck  = () =>{
+        const { title } = this.props.navigation.state.params
+        const { goBack } = this.props.navigation
+           removeDeckFromDecks(title)
+           this.props.dispatch(removeDeck(title))
+           goBack('DeckListView')
+      }
+      
     static navigationOptions = ({ navigation })=>{
        const { title } = navigation.state.params
        return {
@@ -48,7 +48,9 @@ class DeckDetail extends Component {
                          textStyle={styles.textStyle}>
                          Start Quiz
                      </CardButton>
-                     <CardButton textStyle={{color:'red'}}>
+                     <CardButton 
+                        textStyle={{color:'red'}}
+                        onPress={this.deleteDeck}>
                          Delete Deck
                      </CardButton>
                 </View>

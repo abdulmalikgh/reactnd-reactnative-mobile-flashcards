@@ -56,7 +56,7 @@ const CARD_DATA = {
   }
  }
 
- export const removeDeck = async(deckTitle)=> {
+ export const removeDeckFromDecks = async(deckTitle)=> {
    try{
      await AsyncStorage.getItem(CARD_STORAGE_KEY)
         .then(decks => {

@@ -1,4 +1,4 @@
-import {  ADD_DECKS, ADD_CARD,ADD_DECK } from '../actions'
+import {  ADD_DECKS, ADD_CARD,ADD_DECK, REMOVE_TODO } from '../actions'
 
 export default function decks(state = {}, action ) {
     switch(action.type) {
@@ -25,6 +25,9 @@ export default function decks(state = {}, action ) {
                     questions: []
                 }
             }
+        case REMOVE_TODO: 
+            return state.filter( decks => decks.title !== action.ti)
+             
         default : return state
     }
 }

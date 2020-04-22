@@ -14,14 +14,14 @@ return (
 const styles = StyleSheet.create({
     button: {
         width:'50%',
-        height: 80,
+        height: 60,
         borderColor:'black',
         borderRadius:10,
         marginBottom:10
     },
     btnText : {
         fontSize:28,
-        paddingTop:20,
+        paddingTop:8,
         textAlign:'center',
         alignItems: 'center'
     }
