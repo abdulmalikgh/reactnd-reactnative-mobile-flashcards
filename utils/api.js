@@ -27,7 +27,7 @@ const CARD_DATA = {
     }
   }
 
- _storeData = async () => {
+ const _storeData = async () => {
      try {
          return await AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(CARD_DATA))
      } catch (error) {
@@ -45,11 +45,11 @@ const CARD_DATA = {
 
  export const addDeck = async(deck)=>{
   try {
-    AsyncStorage.getItem(CARD_STORAGE_KEY)
+    await AsyncStorage.getItem(CARD_STORAGE_KEY)
     .then( (decks)=> {
       const data = JSON.parse(decks)
       const newDecks = {...data,deck}
-      return await AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(newDecks))
+      return AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(newDecks))
     })
   }catch( err ) {
     console.warn(err)
@@ -58,15 +58,32 @@ const CARD_DATA = {
 
  export const removeDeck = async(deckTitle)=> {
    try{
-       AsyncStorage.getItem(CARD_STORAGE_KEY)
+     await AsyncStorage.getItem(CARD_STORAGE_KEY)
         .then(decks => {
           const data = JSON.parse(decks)
           data[deckTitle] = undefined
           delete data[deckTitle]
-          return await AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(data))
+          return AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(data))
         })
    }catch(err) {
      console.warn(err)
    }
  }
+
+export const addCardToDeck = ({card, question, answer})=>{
+  try{
+      AsyncStorage.getItem(CARD_STORAGE_KEY)
+      .then( decks => {
+      const decksInStore = JSON.parse(decks)
+      console.log('decks from stote', decksInStore)
+      return AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({
+       
+          questions: decksInStore[card].questions.concat({question:question,answer:answer})
+        
+      }))
+    })
+  }catch(err){
+    console.warn(err)
+  }
+}
  _storeData()
