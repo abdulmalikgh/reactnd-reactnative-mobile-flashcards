@@ -1,4 +1,4 @@
-import {  ADD_DECKS, ADD_CARD,ADD_DECK, REMOVE_TODO } from '../actions'
+import {  ADD_DECKS, ADD_CARD,ADD_DECK, REMOVE_DECK } from '../actions'
 
 export default function decks(state = {}, action ) {
     switch(action.type) {
@@ -25,9 +25,12 @@ export default function decks(state = {}, action ) {
                     questions: []
                 }
             }
-        case REMOVE_TODO: 
-            return state.filter( decks => decks.title !== action.ti)
-             
+        case REMOVE_DECK: 
+        const { title } = action 
+        const { [title]: value, ...remainingDecks } = state;
+        console.log(remainingDecks);
+        return remainingDecks;
+         
         default : return state
     }
 }

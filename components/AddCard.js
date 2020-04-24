@@ -45,8 +45,7 @@ class AddCard extends Component{
       })
     }
     static navigationOptions = ({ navigation })=>{
-        const {pageTitle,quizTitle } = navigation.state.params
-
+        const { pageTitle,quizTitle } = navigation.state.params
         return {
             title:`${quizTitle}   ${pageTitle}`
         }

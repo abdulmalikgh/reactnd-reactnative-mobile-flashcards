@@ -14,11 +14,28 @@ class Quiz extends Component{
     render(){
         const { quizTitle } = this.props.navigation.state.params
         const { decks } = this.props
-        console.log('decks')
+
+        if(decks[quizTitle].questions.length === 0) {
+            return (
+                <View style={styles.cantStartQuiz}> 
+                    <Text style={{fontSize:30}}>
+                        Sorry, you cannot take a quiz because there are no cards in the deck 
+                    </Text>
+                </View>
+            )
+        }
         return (
             <View style={styles.quizcontainer}>
                 <View style={styles.qntAndAns}>
-                    <Text>{}</Text>
+                    {decks[quizTitle].questions.map( card => {
+
+                        return (
+                            <View key={card.question}> 
+                                <Text>{card.question}</Text>
+                                <Text>{card.answer}</Text>
+                            </View>
+                        )
+                    })}
                 </View>
                 <View style={styles.buttons}>
                     <CardButton 
@@ -50,6 +67,11 @@ const styles = StyleSheet.create({
         flex:4,
         alignItems:'center'
     },
+    cantStartQuiz: {
+        margin:20,
+        justifyContent:'center',
+        alignItems:'center',
+    }
 })
 
 function mapStateToProps(decks) {

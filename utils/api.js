@@ -57,14 +57,13 @@ const CARD_DATA = {
  }
 
  export const removeDeckFromDecks = async(deckTitle)=> {
+   //console.log('title',deckTitle)
    try{
-     await AsyncStorage.getItem(CARD_STORAGE_KEY)
-        .then(decks => {
-          const data = JSON.parse(decks)
-          data[deckTitle] = undefined
-          delete data[deckTitle]
-          return AsyncStorage.setItem(CARD_STORAGE_KEY,JSON.stringify(data))
-        })
+    const returnData =  await AsyncStorage.getItem(CARD_STORAGE_KEY)
+    const data = JSON.parse(returnData)
+    data[deckTitle]
+    delete data[deckTitle]
+    return AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(data))
    }catch(err) {
      console.warn(err)
    }

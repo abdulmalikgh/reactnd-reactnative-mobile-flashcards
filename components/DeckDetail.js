@@ -9,10 +9,10 @@ import { removeDeck } from '../actions'
 class DeckDetail extends Component {
     deleteDeck  = () =>{
         const { title } = this.props.navigation.state.params
-        const { goBack } = this.props.navigation
+
            removeDeckFromDecks(title)
            this.props.dispatch(removeDeck(title))
-           goBack('DeckListView')
+           this.props.navigation.goBack()
       }
       
     static navigationOptions = ({ navigation })=>{
@@ -21,15 +21,18 @@ class DeckDetail extends Component {
            title : title
        }
     }
+    shouldComponentUpdate(nextProps){
+        return nextProps.deck !== undefined;
+    }
     render() {
         const  title  = this.props.navigation.state.params.title
-        const { decks } = this.props
+        const { deck } = this.props
         return (
             <View style={styles.deckviewContent}>
                 <View style={styles.cardDetail}>
                     <View style={styles.listviewContent}>
                         <Text style={styles.title}> {title} </Text>
-                        <Text style={styles.total}> {decks[title].questions.length} Cards</Text>
+                        <Text style={styles.total}> {deck.questions.length} Cards</Text>
                     </View>
                 </View>
                 <View style={styles.cardBtns}>
@@ -94,9 +97,11 @@ const styles = StyleSheet.create({
     }
 })
 
-function mapStateToProps(decks) {
+function mapStateToProps(decks, {navigation}) {
+    const title = navigation.getParam('title', 'undefined');
+    const deck = decks[title]
     return {
-        decks
+        deck
     }
 }
 export default connect(mapStateToProps)(DeckDetail)
