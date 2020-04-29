@@ -1,10 +1,11 @@
 import React , {Component} from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet,KeyboardAvoidingView , Platform} from 'react-native'
 import CardButton from './CardButton'
 import CardText from './CardText'
 import { connect} from 'react-redux'
 import { addDeck } from '../actions'
 import { addDeckToDecks } from '../utils/api'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class AddDeck extends Component{
     state = {
@@ -42,7 +43,10 @@ class AddDeck extends Component{
     }
     render() {
         return (
-            <View style={{flex:1}}>
+            <KeyboardAwareScrollView
+            style={{flex:1}}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}>
                 <View style={styles.textContent}>
                     <Text style={styles.deckText}>
                         What is the name of the title of your new deck ?
@@ -63,20 +67,19 @@ class AddDeck extends Component{
                             Create Deck
                     </CardButton>
                 </View>
-            </View>
+                </KeyboardAwareScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     textContent: {
-        flex:5,
         alignItems: 'center',
-        marginTop:70    
+        paddingTop:30    
     },
     buttonContent: {
-        flex:2,
-        alignItems:'center'
+        alignItems:'center',
+        paddingTop:30
     },
     deckText: {
         fontSize:30,

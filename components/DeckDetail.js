@@ -45,7 +45,7 @@ class DeckDetail extends Component {
                      </CardButton>
                      <CardButton onPress={()=> this.props.navigation.navigate(
                          'Quiz', 
-                         {pageTitle:'Quiz',quizTitle:title}
+                         {pageTitle:'Quiz',title:title}
                          )} 
                          btnStyle={styles.btnStyle} 
                          textStyle={styles.textStyle}>

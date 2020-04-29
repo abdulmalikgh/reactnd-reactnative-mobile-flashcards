@@ -34,7 +34,7 @@ const StackNavigation = createStackNavigator({
   Home : {
     screen : TabNavigation,
     navigationOptions: {
-      header: null
+      headerShown:false
     }
   },
   DeckDetail : {
