@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     cardQuestion: {
         flex:6,
         alignItems:'center',
-        marginTop:40
+        marginTop:40,
+        marginBottom:5
     },
     submitBtn:{
         flex:4,
