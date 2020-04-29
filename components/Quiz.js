@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import CardButton from './CardButton'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 
 class Quiz extends Component{
     state = {
-        correct: 0,
-        incorrect: 0,
+        correctAnswer: 0,
+        currentQuestion:0,
+        incorrectAnwer:0,
         isAnswer: false,
         showResult: false,
-        questionCount:this.props.deck.questions.length
+        questionCount:this.props.questions.length
     }
     static navigationOptions = ({ navigation })=>{
         const { pageTitle } = navigation.state.params
@@ -23,21 +25,36 @@ class Quiz extends Component{
             {isAnswer: !prevState.isAnswer}
         ))
     }
-    handleCorrect = ()=>{
-    
-    }
+   
     handleRestart = ()=>{
         this.setState({
             isAnswer:false,
-            correct:0,
-            incorrect:0,
-            questionCount:this.props.deck.length
+            showResult:false,
+            currentQuestion:0,
+            correctAnswer: 0,
+            incorrectAnwer: 0,
+            questionCount:this.props.questions.length
         })
     }
-    render(){
-        const { deck } = this.props
+    handleAnswer = (answer)=>{
+        if(answer === 'correct') {
+            this.setState({correctAnswer: this.state.correctAnswer + 1})
+        }
 
-        if(deck.questions.length === 0) {
+        if(answer === 'incorrect'){
+            this.setState({incorrectAnwer:this.state.incorrectAnwer + 1})
+        }
+
+        if(this.state.currentQuestion === this.state.questionCount - 1){
+            this.setState({showResult : true})
+        } else {
+            this.setState({currentQuestion : this.state.currentQuestion + 1})
+        }
+    }
+    render(){
+        const showingQuestion = this.props.questions[this.state.currentQuestion]
+        
+        if(this.props.questions.length === 0) { 
             return (
                 <View style={styles.cantStartQuiz}> 
                     <Text style={{fontSize:30}}>
@@ -46,17 +63,17 @@ class Quiz extends Component{
                 </View>
             )
         }
-        if(!this.state.showResult) {
-            const { correct, questionCount } = this.state
-            const percentage = ( (correct / questionCount) * 100).toFixed(0)
+        if(this.state.showResult) {
+            const { correctAnswer, questionCount } = this.state
+            const percentage = ( (correctAnswer / questionCount) * 100).toFixed(0)
 
             return (
                 <View style={{flex:1}}>
                     <View style={styles.qntAndAns}>
                         <Text style={[styles.answerText ,{fontSize : 30}]}>Quiz Complete !</Text>
-                        <Text style={[styles.answerText, {fontSize:15}]}>{`${correct}/ ${questionCount}`} corrects</Text>
-                        <Text style={[styles.answerText, {fontSize:15}]}>{'Percentage Correct'}</Text>
-                        <Text style={[styles.answerText, {fontWeight:'bold', fontSize:20}]}>{`${percentage}%`}</Text>
+                        <Text style={[styles.answerText, {fontSize:20}]}>{`${correctAnswer}/${questionCount}`} corrects</Text>
+                        <Text style={[styles.answerText, {fontSize:20}]}>{'Percentage Correct'}</Text>
+                        <Text style={[styles.answerText, {fontWeight:'bold', fontSize:25, color: percentage <= 50 ? 'red' : 'green'}]}>{`${percentage}%`}</Text>
                     </View>
                     <View style={styles.buttons}>
                     <CardButton onPress={this.handleRestart} 
@@ -67,7 +84,7 @@ class Quiz extends Component{
                      <CardButton 
                         btnStyle={{backgroundColor:'red'}}
                         textStyle={{color:'white'}}
-                        onPress={()=> this.props.navigation.navigate('Home')}>
+                        onPress={()=> this.props.navigation.dispatch(NavigationActions.back())}>
                          go Back
                      </CardButton>
                     </View>
@@ -77,31 +94,27 @@ class Quiz extends Component{
         return (
             <View style={styles.quizcontainer}>
                 <View style={styles.qntAndAnsContent}>
-                    {deck.questions.map( (card, index )=> {
-                        return (
-                            <View key={index} style={{flex:1}}>
-                                <Text style={styles.remainingQuestion}>{`${index + 1}/${this.state.questionCount}`}</Text>
-                                <View style={styles.qntAndAns}> 
-                                    <Text style={{fontSize:30, textAlign:'center'}}>
-                                        {!this.state.isAnswer ? card.question : card.answer}
-                                    </Text>
-                                    <Text style={styles.title} onPress={this.toggleQuestion}>
-                                        {!this.state.isAnswer ? 'Answer' : 'Question'}
-                                    </Text>
-                                </View>
-                            </View>
-                        )
-                    })}
+                    <View style={{flex:1}}>
+                        <Text style={styles.remainingQuestion}>{`${this.state.currentQuestion + 1}/${this.state.questionCount}`}</Text>
+                        <View style={styles.qntAndAns}> 
+                            <Text style={{fontSize:30, textAlign:'center'}}>
+                                {!this.state.isAnswer ? showingQuestion.question : showingQuestion.answer}
+                            </Text>
+                        <Text style={styles.title} onPress={this.toggleQuestion}>
+                             {!this.state.isAnswer ? 'Answer' : 'Question'}
+                        </Text>
+                        </View>
+                    </View>
                 </View>
                 <View style={styles.buttons}>
                     <CardButton 
-                        onPress={this.handleCorrect}
+                        onPress={()=>this.handleAnswer('correct')}
                         btnStyle={{backgroundColor:'green'}}
                         textStyle={{color:'white'}}>
                         Correct
                     </CardButton>
                     <CardButton 
-                        onPress={this.handleIncorrect}
+                        onPress={()=> this.handleAnswer('incorrect')}
                         btnStyle={{backgroundColor:'red'}}
                         textStyle={{color:'white'}}>
                         Incorrect
@@ -152,10 +165,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(decks, { navigation }) {
-    const title = navigation.getParam('title', 'undefined');
-    const deck = decks[title]
+    const { title } = navigation.state.params
+    const questions = decks[title].questions
     return {
-        deck
+        questions, 
     }
 }
 export default connect(mapStateToProps)(Quiz)
