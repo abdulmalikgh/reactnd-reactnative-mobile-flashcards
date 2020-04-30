@@ -28,7 +28,6 @@ export default function decks(state = {}, action ) {
         case REMOVE_DECK: 
         const { title } = action 
         const { [title]: value, ...remainingDecks } = state;
-        console.log(remainingDecks);
         return remainingDecks;
          
         default : return state

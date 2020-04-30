@@ -28,7 +28,7 @@ class DeckListView extends Component{
            <View style={styles.listContainer}>
                <FlatList 
                    data={Object.keys(decks)}
-                   keyExtractor={(item,index) => item[index] }
+                   keyExtractor={(item,index) => decks[item].title }
                    renderItem={ ({ item })=><DeckList {...decks[item]} onPress={()=>this.props.navigation.navigate(
                        'DeckDetail',
                        {title : decks[item].title})}/>}

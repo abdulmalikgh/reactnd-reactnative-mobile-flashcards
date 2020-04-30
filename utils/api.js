@@ -70,7 +70,7 @@ const CARD_DATA = {
 
 export const addCardToDeck = ({card, question, answer})=>{
   try{
-      AsyncStorage.getItem(CARD_STORAGE_KEY)
+     return AsyncStorage.getItem(CARD_STORAGE_KEY)
       .then( decks => {
         const decksInStore = JSON.parse(decks)
         return AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({

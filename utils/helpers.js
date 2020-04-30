@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native'
-import { Notifications, Permissions } from 'expo'
+import { Notifications } from 'expo'
+import * as Permissions from 'expo-permissions'
 
 
 const NOTIFICATION_KEY = 'appnotification'
@@ -13,7 +14,10 @@ export function createNotification(){
     return {
         title:'take quiz',
         body:'You didn\'t take a quiz today',
-        android : {
+        ios: {
+            sound: true
+          },
+        android: {
             sound:true,
             priority:'high',
             sticky:false,
@@ -31,7 +35,7 @@ export function setLocalNotification(){
                     .then(({ status }) => {
                         if(status === 'granted') {
                             Notifications.cancelAllScheduledNotificationsAsync()
-
+ 
                             let tomorrow = new Date()
                             tomorrow.setDate(tomorrow.getDate() + 1)
                             tomorrow.setHours(20)
