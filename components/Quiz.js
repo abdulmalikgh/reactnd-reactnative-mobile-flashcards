@@ -3,12 +3,12 @@ import { View, Text, StyleSheet } from 'react-native'
 import CardButton from './CardButton'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-
+import {setLocalNotification, clearLocalNotification} from '../utils/helpers'
 class Quiz extends Component{
     state = {
         correctAnswer: 0,
         currentQuestion:0,
-        incorrectAnwer:0,
+        incorrectAnwer:0, 
         isAnswer: false,
         showResult: false,
         questionCount:this.props.questions.length
@@ -35,6 +35,9 @@ class Quiz extends Component{
             incorrectAnwer: 0,
             questionCount:this.props.questions.length
         })
+
+        clearLocalNotification()
+            .then(setLocalNotification)
     }
     handleAnswer = (answer)=>{
         if(answer === 'correct') {

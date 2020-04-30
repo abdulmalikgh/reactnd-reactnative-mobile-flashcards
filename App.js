@@ -12,6 +12,7 @@ import Quiz from './components/Quiz'
 import AddCard from './components/AddCard'
 import AddDeck from './components/AddDeck'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { setLocalNotification } from './utils/helpers'
 
 const TabNavigation = createBottomTabNavigator({
   Decks : {
@@ -60,6 +61,9 @@ const StackNavigation = createStackNavigator({
 const AppNavigation = createAppContainer(StackNavigation)
 
 export default class extends Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
 render( ) {
   return (
     <Provider store={createStore(Reducer)}>
